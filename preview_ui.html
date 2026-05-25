@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unified Transcription Suite — Preview</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #111111;
+    font-family: 'Lora', Georgia, serif;
+    color: #F5F5F0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 24px;
+  }
+
+  .window {
+    width: 900px;
+    min-height: 700px;
+    background: #181818;
+    border-radius: 14px;
+    border: 1px solid #2A2A2A;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.7);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Titlebar */
+  .titlebar {
+    background: #1A1A1A;
+    border-bottom: 1px solid #2A2A2A;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .titlebar-dot { width: 12px; height: 12px; border-radius: 50%; }
+  .dot-red   { background: #E53E3E; }
+  .dot-yellow{ background: #D4622A; }
+  .dot-green { background: #22C55E; }
+  .titlebar-title {
+    flex: 1;
+    text-align: center;
+    font-size: 12px;
+    color: #6B7280;
+    letter-spacing: 0.3px;
+  }
+
+  /* Main layout */
+  .content {
+    display: flex;
+    flex: 1;
+    padding: 20px;
+    gap: 16px;
+  }
+
+  /* ── Recorder Panel (left 1/4) ── */
+  .recorder {
+    width: 220px;
+    flex-shrink: 0;
+    background: #252525;
+    border-radius: 16px;
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .label-small {
+    font-size: 12px;
+    font-weight: 600;
+    color: #9CA3AF;
+    margin-bottom: 4px;
+  }
+
+  .combo {
+    background: #1A1A1A;
+    border: 1px solid #3A3A3A;
+    border-radius: 8px;
+    color: #F5F5F0;
+    font-family: 'Lora', Georgia, serif;
+    font-size: 12px;
+    padding: 8px 10px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .combo-arrow { color: #D4622A; font-size: 10px; }
+
+  .status-card {
+    background: #1A1A1A;
+    border-radius: 12px;
+    padding: 18px 12px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .status-text { font-size: 20px; font-weight: 700; color: #E53E3E; }
+  .status-text.recording { color: #22C55E; }
+  .timer { font-size: 28px; color: #F5F5F0; letter-spacing: 2px; }
+  .size-text { font-size: 11px; color: #9CA3AF; }
+
+  .checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #F5F5F0;
+  }
+  .checkbox {
+    width: 16px; height: 16px;
+    border-radius: 4px;
+    background: #D4622A;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .checkbox::after { content: '✓'; font-size: 10px; color: white; font-weight: 700; }
+
+  .btn {
+    border-radius: 12px;
+    border: none;
+    font-family: 'Lora', Georgia, serif;
+    font-weight: 700;
+    cursor: pointer;
+    color: #F5F5F0;
+    padding: 0 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .btn-record {
+    background: #22C55E;
+    height: 52px;
+    font-size: 15px;
+    width: 100%;
+  }
+  .btn-orange {
+    background: #D4622A;
+    height: 36px;
+    font-size: 13px;
+  }
+  .btn-gray {
+    background: #4B5563;
+    height: 36px;
+    font-size: 13px;
+  }
+
+  .file-saved {
+    font-size: 11px;
+    color: #D4622A;
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  /* ── Transcriber Panel (right 3/4) ── */
+  .transcriber {
+    flex: 1;
+    background: #252525;
+    border-radius: 16px;
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .top-bar {
+    background: #1A1A1A;
+    border-radius: 10px;
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .service-label { font-size: 12px; font-weight: 600; color: #9CA3AF; }
+
+  .combo-inline {
+    background: #252525;
+    border: 1px solid #3A3A3A;
+    border-radius: 8px;
+    color: #F5F5F0;
+    font-family: 'Lora', Georgia, serif;
+    font-size: 12px;
+    padding: 6px 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 130px;
+  }
+  .combo-dot { width: 6px; height: 6px; border-radius: 50%; background: #D4622A; }
+
+  .file-bar {
+    background: #1A1A1A;
+    border-radius: 10px;
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .status-pill {
+    font-size: 12px;
+    color: #D4622A;
+    font-style: italic;
+  }
+
+  /* Textbox */
+  .textbox {
+    flex: 1;
+    background: #141414;
+    border-radius: 12px;
+    border: 1px solid #2A2A2A;
+    padding: 16px;
+    font-family: 'Lora', Georgia, serif;
+    font-size: 14px;
+    line-height: 1.7;
+    overflow-y: auto;
+    min-height: 320px;
+  }
+
+  .msg-separator {
+    color: #D4622A;
+    font-weight: 600;
+    font-size: 13px;
+    margin: 4px 0 6px;
+  }
+  .msg-transcript {
+    color: #F5F5F0;
+    margin-bottom: 16px;
+    line-height: 1.8;
+  }
+  .msg-placeholder {
+    color: #4B5563;
+    font-style: italic;
+    font-size: 13px;
+  }
+
+  /* Drop hint */
+  .drop-hint {
+    border: 1.5px dashed #3A3A3A;
+    border-radius: 10px;
+    text-align: center;
+    padding: 10px;
+    color: #4B5563;
+    font-size: 12px;
+    font-style: italic;
+  }
+
+  .btn-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* Scrollbar */
+  .textbox::-webkit-scrollbar { width: 6px; }
+  .textbox::-webkit-scrollbar-track { background: #1A1A1A; border-radius: 3px; }
+  .textbox::-webkit-scrollbar-thumb { background: #3A3A3A; border-radius: 3px; }
+  .textbox::-webkit-scrollbar-thumb:hover { background: #D4622A; }
+
+  /* Legend */
+  .legend {
+    margin-top: 20px;
+    background: #1A1A1A;
+    border: 1px solid #2A2A2A;
+    border-radius: 10px;
+    padding: 14px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    font-size: 12px;
+  }
+  .legend-item { display: flex; align-items: center; gap: 7px; color: #9CA3AF; }
+  .swatch { width: 14px; height: 14px; border-radius: 4px; flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<div style="width:900px">
+
+  <!-- APP WINDOW -->
+  <div class="window">
+
+    <!-- Titlebar -->
+    <div class="titlebar">
+      <div class="titlebar-dot dot-red"></div>
+      <div class="titlebar-dot dot-yellow"></div>
+      <div class="titlebar-dot dot-green"></div>
+      <div class="titlebar-title">Unified Transcription Suite</div>
+    </div>
+
+    <!-- Main content -->
+    <div class="content">
+
+      <!-- RECORDER (left) -->
+      <div class="recorder">
+
+        <div>
+          <div class="label-small">Dispositivo de Entrada:</div>
+          <div class="combo">
+            Microfone USB (HD Audio)
+            <span class="combo-arrow">▾</span>
+          </div>
+        </div>
+
+        <div class="status-card">
+          <div class="status-text recording">Gravando...</div>
+          <div class="timer">00:04:32</div>
+          <div class="size-text">3.71 MB / 20.00 MB</div>
+        </div>
+
+        <div class="checkbox-row">
+          <div class="checkbox"></div>
+          Aumentar Volume (Boost 3x)
+        </div>
+
+        <button class="btn" style="background:#E53E3E;height:52px;font-size:15px;width:100%;border-radius:12px;border:none;font-family:'Lora',Georgia,serif;font-weight:700;color:#F5F5F0;cursor:pointer;">
+          ⏹ Parar Gravação
+        </button>
+
+        <div class="file-saved">
+          Salvo em:<br>gravacao-fernando_20260525_134201.wav
+        </div>
+
+      </div>
+
+      <!-- TRANSCRIBER (right) -->
+      <div class="transcriber">
+
+        <div class="top-bar">
+          <span class="service-label">Serviço:</span>
+          <div class="combo-inline">
+            <div class="combo-dot"></div>
+            AssemblyAI
+            <span style="color:#D4622A;font-size:10px;margin-left:auto;">▾</span>
+          </div>
+          <button class="btn btn-orange" style="margin-left:auto;">Ver Saldo US$</button>
+        </div>
+
+        <div class="file-bar">
+          <button class="btn btn-orange">Selecionar Arquivo</button>
+          <span class="status-pill">⬤ Monitorando: ...\Gravacoes Som Audio Recorder Free</span>
+        </div>
+
+        <div class="textbox">
+          <div class="msg-separator">— gravacao-fernando_20260525_130011.wav (AssemblyAI) —</div>
+          <div class="msg-transcript">
+            <strong style="color:#D4622A;">Falante A:</strong> Bom dia, doutor. Estou sentindo uma dor forte no lado direito do abdômen desde ontem à noite. Começou de repente e não passou com o remédio que tomei.<br><br>
+            <strong style="color:#D4622A;">Falante B:</strong> Entendo. Essa dor é constante ou vem em crises? E ela irradia para algum outro lugar, como as costas ou o ombro?<br><br>
+            <strong style="color:#D4622A;">Falante A:</strong> Ela vem em crises, fica uns dez minutos forte e depois alivia um pouco. Às vezes vai para as costas também.<br><br>
+            <strong style="color:#D4622A;">Falante B:</strong> Certo. Vamos pedir um ultrassom do abdômen e alguns exames de sangue para investigar melhor. Pode ser cólica biliar. Enquanto isso, evite alimentos gordurosos.
+          </div>
+
+          <div class="msg-separator">— gravacao-fernando_20260525_131542.wav (AssemblyAI) —</div>
+          <div class="msg-transcript" style="color:#9CA3AF;font-style:italic;">
+            Processando... aguardando resultado da transcrição.
+          </div>
+        </div>
+
+        <div class="drop-hint">
+          ⬇ Arraste um arquivo de áudio aqui para transcrever (mp3, wav, m4a, flac, ogg)
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-gray">Limpar</button>
+          <button class="btn btn-orange">Copiar Texto</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="legend-item">
+      <div class="swatch" style="background:#181818;border:1px solid #3A3A3A;"></div>
+      Fundo principal #181818
+    </div>
+    <div class="legend-item">
+      <div class="swatch" style="background:#252525;"></div>
+      Painéis/cards #252525
+    </div>
+    <div class="legend-item">
+      <div class="swatch" style="background:#141414;border:1px solid #3A3A3A;"></div>
+      Textbox #141414
+    </div>
+    <div class="legend-item">
+      <div class="swatch" style="background:#D4622A;"></div>
+      Laranja Anthropic #D4622A — mensagens do app
+    </div>
+    <div class="legend-item">
+      <div class="swatch" style="background:#22C55E;"></div>
+      Verde #22C55E — gravando
+    </div>
+    <div class="legend-item">
+      <div class="swatch" style="background:#E53E3E;"></div>
+      Vermelho #E53E3E — parado
+    </div>
+    <div class="legend-item">
+      <div class="swatch" style="background:#F5F5F0;"></div>
+      Texto principal #F5F5F0
+    </div>
+    <div class="legend-item" style="color:#9CA3AF;">
+      ✦ Fonte: Lora / Georgia (Anthropic Serif não é pública)
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
