@@ -26,8 +26,8 @@ class UnifiedApp(ctk.CTk, TkinterDnD.DnDWrapper):
             self.iconbitmap(icon_path)
         
         # Theme
-        ctk.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
-        ctk.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
+        ctk.set_appearance_mode("Dark")
+        ctk.set_default_color_theme("dark-blue")
 
         # Grid Layout
         self.grid_columnconfigure(0, weight=1)  # 1/4
