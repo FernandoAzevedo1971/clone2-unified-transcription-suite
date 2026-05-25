@@ -1,0 +1,80 @@
+Testing Device Index 0: Mapeador de som da Microsoft - Input [HostAPI 0]
+  Max In Channels: 2, Default SR: 44100.0
+  Result (44100, 1ch): SUCCESS
+  Result (44100.0, 1ch): SUCCESS
+----------------------------------------
+Testing Device Index 1: Microfone (USB2.0 Device) [HostAPI 0]
+  Max In Channels: 1, Default SR: 44100.0
+  Result (44100, 1ch): SUCCESS
+  Result (44100.0, 1ch): SUCCESS
+----------------------------------------
+Testing Device Index 2: Microfone (Realtek(R) Audio) [HostAPI 0]
+  Max In Channels: 4, Default SR: 44100.0
+  Result (44100, 1ch): SUCCESS
+  Result (44100.0, 1ch): SUCCESS
+----------------------------------------
+Testing Device Index 5: Driver de captura de som primário [HostAPI 1]
+  Max In Channels: 2, Default SR: 44100.0
+  Result (44100, 1ch): SUCCESS
+  Result (44100.0, 1ch): SUCCESS
+----------------------------------------
+Testing Device Index 6: Microfone (USB2.0 Device) [HostAPI 1]
+  Max In Channels: 1, Default SR: 44100.0
+  Result (44100, 1ch): SUCCESS
+  Result (44100.0, 1ch): SUCCESS
+----------------------------------------
+Testing Device Index 7: Microfone (Realtek(R) Audio) [HostAPI 1]
+  Max In Channels: 4, Default SR: 44100.0
+  Result (44100, 1ch): SUCCESS
+  Result (44100.0, 1ch): SUCCESS
+----------------------------------------
+Testing Device Index 11: Microfone (USB2.0 Device) [HostAPI 2]
+  Max In Channels: 1, Default SR: 48000.0
+  Result (44100, 1ch): FAILED - Error opening RawInputStream: Invalid sample rate [PaErrorCode -9997]
+  Result (48000.0, 1ch): SUCCESS
+----------------------------------------
+Testing Device Index 12: Microfone (Realtek(R) Audio) [HostAPI 2]
+  Max In Channels: 2, Default SR: 48000.0
+  Result (44100, 1ch): FAILED - Error opening RawInputStream: Invalid sample rate [PaErrorCode -9997]
+  Result (48000.0, 1ch): SUCCESS
+----------------------------------------
+Testing Device Index 15: Alto-falante (Realtek HD Audio output with SST) [HostAPI 3]
+  Max In Channels: 2, Default SR: 48000.0
+  Result (44100, 1ch): FAILED - Error opening RawInputStream: Unanticipated host error [PaErrorCode -9999]: 'Blocking API not supported yet' [Windows WDM-KS error -9999]
+  Result (48000.0, 1ch): FAILED - Error opening RawInputStream: Unanticipated host error [PaErrorCode -9999]: 'Blocking API not supported yet' [Windows WDM-KS error -9999]
+----------------------------------------
+Testing Device Index 16: Mixagem estéreo (Realtek HD Audio Stereo input) [HostAPI 3]
+  Max In Channels: 2, Default SR: 48000.0
+  Result (44100, 1ch): FAILED - Error opening RawInputStream: Unanticipated host error [PaErrorCode -9999]: 'Blocking API not supported yet' [Windows WDM-KS error -9999]
+  Result (48000.0, 1ch): FAILED - Error opening RawInputStream: Unanticipated host error [PaErrorCode -9999]: 'Blocking API not supported yet' [Windows WDM-KS error -9999]
+----------------------------------------
+Testing Device Index 19: Alto-falante (Realtek HD Audio 2nd output with SST) [HostAPI 3]
+  Max In Channels: 2, Default SR: 48000.0
+  Result (44100, 1ch): FAILED - Error opening RawInputStream: Unanticipated host error [PaErrorCode -9999]: 'Blocking API not supported yet' [Windows WDM-KS error -9999]
+  Result (48000.0, 1ch): FAILED - Error opening RawInputStream: Unanticipated host error [PaErrorCode -9999]: 'Blocking API not supported yet' [Windows WDM-KS error -9999]
+----------------------------------------
+Testing Device Index 20: Microfone 1 (Realtek HD Audio Mic input with SST) [HostAPI 3]
+  Max In Channels: 2, Default SR: 48000.0
+  Result (44100, 1ch): FAILED - Error opening RawInputStream: Unanticipated host error [PaErrorCode -9999]: 'Blocking API not supported yet' [Windows WDM-KS error -9999]
+  Result (48000.0, 1ch): FAILED - Error opening RawInputStream: Unanticipated host error [PaErrorCode -9999]: 'Blocking API not supported yet' [Windows WDM-KS error -9999]
+----------------------------------------
+Testing Device Index 21: Microfone 2 (Realtek HD Audio Mic input with SST) [HostAPI 3]
+  Max In Channels: 4, Default SR: 16000.0
+  Result (44100, 1ch): FAILED - Error opening RawInputStream: Unanticipated host error [PaErrorCode -9999]: 'Blocking API not supported yet' [Windows WDM-KS error -9999]
+  Result (16000.0, 1ch): FAILED - Error opening RawInputStream: Unanticipated host error [PaErrorCode -9999]: 'Blocking API not supported yet' [Windows WDM-KS error -9999]
+----------------------------------------
+Testing Device Index 22: Microfone 3 (Realtek HD Audio Mic input with SST) [HostAPI 3]
+  Max In Channels: 4, Default SR: 16000.0
+  Result (44100, 1ch): FAILED - Error opening RawInputStream: Unanticipated host error [PaErrorCode -9999]: 'Blocking API not supported yet' [Windows WDM-KS error -9999]
+  Result (16000.0, 1ch): FAILED - Error opening RawInputStream: Unanticipated host error [PaErrorCode -9999]: 'Blocking API not supported yet' [Windows WDM-KS error -9999]
+----------------------------------------
+Testing Device Index 23: Microfone (Realtek HD Audio Mic input) [HostAPI 3]
+  Max In Channels: 2, Default SR: 44100.0
+  Result (44100, 1ch): FAILED - Error opening RawInputStream: Unanticipated host error [PaErrorCode -9999]: 'Blocking API not supported yet' [Windows WDM-KS error -9999]
+  Result (44100.0, 1ch): FAILED - Error opening RawInputStream: Unanticipated host error [PaErrorCode -9999]: 'Blocking API not supported yet' [Windows WDM-KS error -9999]
+----------------------------------------
+Testing Device Index 24: Microfone (USB2.0 Device) [HostAPI 3]
+  Max In Channels: 1, Default SR: 48000.0
+  Result (44100, 1ch): FAILED - Error opening RawInputStream: Unanticipated host error [PaErrorCode -9999]: 'Blocking API not supported yet' [Windows WDM-KS error -9999]
+  Result (48000.0, 1ch): FAILED - Error opening RawInputStream: Unanticipated host error [PaErrorCode -9999]: 'Blocking API not supported yet' [Windows WDM-KS error -9999]
+----------------------------------------

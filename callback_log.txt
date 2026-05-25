@@ -1,0 +1,48 @@
+
+--- Testing Device 0: Mapeador de som da Microsoft - Input ---
+FAILED: Callback NOT called for device 0
+
+--- Testing Device 1: Microfone (USB2.0 Device) ---
+FAILED: Callback NOT called for device 1
+
+--- Testing Device 2: Microfone (Realtek(R) Audio) ---
+SUCCESS: Callback WAS called for device 2
+
+--- Testing Device 5: Driver de captura de som primário ---
+FAILED: Callback NOT called for device 5
+
+--- Testing Device 6: Microfone (USB2.0 Device) ---
+FAILED: Callback NOT called for device 6
+
+--- Testing Device 7: Microfone (Realtek(R) Audio) ---
+SUCCESS: Callback WAS called for device 7
+
+--- Testing Device 11: Microfone (USB2.0 Device) ---
+FAILED: Callback NOT called for device 11
+
+--- Testing Device 12: Microfone (Realtek(R) Audio) ---
+SUCCESS: Callback WAS called for device 12
+
+--- Testing Device 15: Alto-falante (Realtek HD Audio output with SST) ---
+FAILED: Callback NOT called for device 15
+
+--- Testing Device 16: Mixagem estéreo (Realtek HD Audio Stereo input) ---
+Error for device 16: Error opening RawInputStream: Invalid device [PaErrorCode -9996]
+
+--- Testing Device 19: Alto-falante (Realtek HD Audio 2nd output with SST) ---
+FAILED: Callback NOT called for device 19
+
+--- Testing Device 20: Microfone 1 (Realtek HD Audio Mic input with SST) ---
+Error for device 20: Error opening RawInputStream: Invalid device [PaErrorCode -9996]
+
+--- Testing Device 21: Microfone 2 (Realtek HD Audio Mic input with SST) ---
+FAILED: Callback NOT called for device 21
+
+--- Testing Device 22: Microfone 3 (Realtek HD Audio Mic input with SST) ---
+SUCCESS: Callback WAS called for device 22
+
+--- Testing Device 23: Microfone (Realtek HD Audio Mic input) ---
+Error for device 23: Error opening RawInputStream: Invalid device [PaErrorCode -9996]
+
+--- Testing Device 24: Microfone (USB2.0 Device) ---
+FAILED: Callback NOT called for device 24

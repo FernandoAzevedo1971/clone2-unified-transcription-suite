@@ -1,0 +1,8 @@
+customtkinter
+sounddevice
+assemblyai>=0.33.0
+deepgram-sdk>=3.0.0
+python-dotenv
+pyperclip
+watchdog
+tkinterdnd2
