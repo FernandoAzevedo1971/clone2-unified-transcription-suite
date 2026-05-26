@@ -1,5 +1,6 @@
 customtkinter
 sounddevice
+numpy
 assemblyai>=0.33.0
 deepgram-sdk>=3.0.0
 python-dotenv
