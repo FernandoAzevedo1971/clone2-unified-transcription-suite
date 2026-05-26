@@ -10,6 +10,10 @@ from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 
 from .services import AssemblyAIService, DeepgramService
+from .theme import (
+    ORANGE, ORANGE_HOVER, GRAY, GRAY_HOVER,
+    TEXT_PRIMARY, TEXT_SECONDARY, BG_CARD, FONT,
+)
 
 
 class AudioFileHandler(FileSystemEventHandler):
@@ -72,40 +76,122 @@ class TranscriberFrame(ctk.CTkFrame):
     def setup_ui(self):
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(2, weight=1)
+        self.grid_rowconfigure(3, weight=0)
+        self.configure(fg_color=BG_CARD, corner_radius=16)
 
-        self.service_frame = ctk.CTkFrame(self)
-        self.service_frame.grid(row=0, column=0, padx=20, pady=10, sticky="ew")
+        _serif = ctk.CTkFont(family=FONT, size=13)
+        _serif_bold = ctk.CTkFont(family=FONT, size=13, weight="bold")
 
-        ctk.CTkLabel(self.service_frame, text="Servico:").pack(side="left", padx=10)
-        self.service_combo = ctk.CTkComboBox(self.service_frame, values=["AssemblyAI", "Deepgram"], state="readonly")
-        self.service_combo.pack(side="left", padx=10)
+        self.service_frame = ctk.CTkFrame(self, fg_color="#1A1A1A", corner_radius=10)
+        self.service_frame.grid(row=0, column=0, padx=20, pady=(16, 6), sticky="ew")
+
+        ctk.CTkLabel(
+            self.service_frame,
+            text="Servico:",
+            font=_serif_bold,
+            text_color=TEXT_SECONDARY,
+        ).pack(side="left", padx=(14, 6), pady=10)
+
+        self.service_combo = ctk.CTkComboBox(
+            self.service_frame,
+            values=["AssemblyAI", "Deepgram"],
+            state="readonly",
+            font=_serif,
+            dropdown_font=_serif,
+            fg_color="#252525",
+            border_color="#3A3A3A",
+            button_color=ORANGE,
+            button_hover_color=ORANGE_HOVER,
+            width=140,
+        )
+        self.service_combo.pack(side="left", padx=6, pady=10)
         self.service_combo.set("AssemblyAI")
 
         self.btn_check_balance = ctk.CTkButton(
             self.service_frame,
             text="Ver Saldo US$",
-            width=100,
+            width=110,
+            font=_serif,
+            fg_color=ORANGE,
+            hover_color=ORANGE_HOVER,
+            corner_radius=8,
             command=self.open_balance_dashboard,
         )
-        self.btn_check_balance.pack(side="left", padx=10)
+        self.btn_check_balance.pack(side="left", padx=10, pady=10)
 
-        self.file_frame = ctk.CTkFrame(self)
-        self.file_frame.grid(row=1, column=0, padx=20, pady=10, sticky="ew")
+        self.file_frame = ctk.CTkFrame(self, fg_color="#1A1A1A", corner_radius=10)
+        self.file_frame.grid(row=1, column=0, padx=20, pady=6, sticky="ew")
 
-        self.btn_select = ctk.CTkButton(self.file_frame, text="Selecionar", width=100, command=self.select_file)
-        self.btn_select.pack(side="left", padx=10, pady=10)
+        self.btn_select = ctk.CTkButton(
+            self.file_frame,
+            text="Selecionar Arquivo",
+            width=150,
+            font=_serif,
+            fg_color=ORANGE,
+            hover_color=ORANGE_HOVER,
+            corner_radius=8,
+            command=self.select_file,
+        )
+        self.btn_select.pack(side="left", padx=12, pady=10)
 
-        self.lbl_status = ctk.CTkLabel(self.file_frame, text="Iniciando monitoramento...", text_color="gray")
+        self.lbl_status = ctk.CTkLabel(
+            self.file_frame,
+            text="Iniciando monitoramento...",
+            text_color=ORANGE,
+            font=_serif,
+            anchor="w",
+        )
         self.lbl_status.pack(side="left", padx=10, fill="x", expand=True)
 
-        self.textbox = ctk.CTkTextbox(self, font=ctk.CTkFont(size=14))
-        self.textbox.grid(row=2, column=0, padx=20, pady=10, sticky="nsew")
+        self.textbox = ctk.CTkTextbox(
+            self,
+            font=ctk.CTkFont(family=FONT, size=14),
+            fg_color="#141414",
+            text_color=TEXT_PRIMARY,
+            corner_radius=12,
+            border_width=1,
+            border_color="#2A2A2A",
+            scrollbar_button_color="#3A3A3A",
+            scrollbar_button_hover_color=ORANGE,
+        )
+        self.textbox.grid(row=2, column=0, padx=20, pady=8, sticky="nsew")
+        self.textbox._textbox.tag_configure("app_msg", foreground=ORANGE)
+        self.textbox._textbox.tag_configure("transcript", foreground=TEXT_PRIMARY)
 
-        self.btn_frame = ctk.CTkFrame(self)
-        self.btn_frame.grid(row=3, column=0, padx=20, pady=10, sticky="ew")
+        # Drop zone visual hint
+        self.drop_hint = ctk.CTkLabel(
+            self,
+            text="⬇  Arraste um arquivo de áudio aqui  (mp3 · wav · m4a · flac · ogg)",
+            font=ctk.CTkFont(family=FONT, size=12),
+            text_color="#4B5563",
+            fg_color="#1A1A1A",
+            corner_radius=8,
+            height=32,
+        )
+        self.drop_hint.grid(row=3, column=0, padx=20, pady=(0, 4), sticky="ew")
 
-        ctk.CTkButton(self.btn_frame, text="Copiar", command=self.copy_text).pack(side="right", padx=10, pady=10)
-        ctk.CTkButton(self.btn_frame, text="Limpar", fg_color="gray", command=self.clear_text).pack(side="left", padx=10, pady=10)
+        self.btn_frame = ctk.CTkFrame(self, fg_color="transparent")
+        self.btn_frame.grid(row=4, column=0, padx=20, pady=(4, 16), sticky="ew")
+
+        ctk.CTkButton(
+            self.btn_frame,
+            text="Copiar Texto",
+            font=_serif,
+            fg_color=ORANGE,
+            hover_color=ORANGE_HOVER,
+            corner_radius=8,
+            command=self.copy_text,
+        ).pack(side="right", padx=8, pady=8)
+
+        ctk.CTkButton(
+            self.btn_frame,
+            text="Limpar",
+            font=_serif,
+            fg_color=GRAY,
+            hover_color=GRAY_HOVER,
+            corner_radius=8,
+            command=self.clear_text,
+        ).pack(side="left", padx=8, pady=8)
 
         self.drop_target_register(DND_FILES)
         self.dnd_bind("<<Drop>>", self.on_drop)
@@ -115,8 +201,9 @@ class TranscriberFrame(ctk.CTkFrame):
 
     def append_transcript(self, filepath, service_name, text):
         def _append():
-            self.textbox.insert("end", f"\n--- {os.path.basename(filepath)} ({service_name}) ---\n")
-            self.textbox.insert("end", text + "\n")
+            header = f"\n— {os.path.basename(filepath)} ({service_name}) —\n"
+            self.textbox._textbox.insert("end", header, "app_msg")
+            self.textbox._textbox.insert("end", text + "\n", "transcript")
             self.textbox.see("end")
 
         self.after(0, _append)
@@ -135,7 +222,7 @@ class TranscriberFrame(ctk.CTkFrame):
         self.observer.start()
 
         folder_name = os.path.basename(self.watch_directory)
-        self.set_status(f"Monitorando: ...\\{folder_name}", "blue")
+        self.set_status(f"⬤  Monitorando: ...\\{folder_name}", ORANGE)
 
     def on_drop(self, event):
         filepath = event.data
@@ -163,14 +250,14 @@ class TranscriberFrame(ctk.CTkFrame):
 
         self.processing_files.add(abs_path)
         filename = os.path.basename(abs_path)
-        self.set_status(f"Processando {filename}...", "#FF8C00")
+        self.set_status(f"⟳  Processando {filename}...", ORANGE)
         threading.Thread(target=self.process_file, args=(abs_path, service_name), daemon=True).start()
 
     def process_file(self, filepath, service_name):
         try:
             service = self.services[service_name]
             text = service.transcribe(filepath)
-            self.set_status("Transcricao concluida!", "green")
+            self.set_status("✓  Transcricao concluida!", "#22C55E")
             self.append_transcript(filepath, service_name, text)
         except Exception as error:
             self.set_status(f"Erro: {error}", "red")
