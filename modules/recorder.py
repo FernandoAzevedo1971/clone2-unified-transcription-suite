@@ -119,7 +119,7 @@ class RecorderFrame(ctk.CTkFrame):
 
         self.record_button = ctk.CTkButton(
             self,
-            text="Iniciar Gravacao",
+            text="⏺  Iniciar Gravacao",
             command=self.toggle_recording,
             font=ctk.CTkFont(family=FONT, size=16, weight="bold"),
             height=52,
@@ -324,7 +324,7 @@ class RecorderFrame(ctk.CTkFrame):
         self.current_file_size = 0
 
         if not auto_restart:
-            self.record_button.configure(text="Parar Gravacao", fg_color=RED, hover_color=RED_HOVER)
+            self.record_button.configure(text="⏹  Parar Gravacao", fg_color=RED, hover_color=RED_HOVER)
             self.device_combo.configure(state="disabled")
 
         self.status_label.configure(text="Gravando...", text_color=GREEN)
@@ -339,7 +339,7 @@ class RecorderFrame(ctk.CTkFrame):
 
     def stop_recording(self):
         self.is_recording = False
-        self.record_button.configure(text="Iniciar Gravacao", fg_color=GREEN, hover_color=GREEN_HOVER)
+        self.record_button.configure(text="⏺  Iniciar Gravacao", fg_color=GREEN, hover_color=GREEN_HOVER)
         self.status_label.configure(text="Parado", text_color=RED)
         if self.devices:
             self.device_combo.configure(state="readonly")

@@ -76,6 +76,7 @@ class TranscriberFrame(ctk.CTkFrame):
     def setup_ui(self):
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(2, weight=1)
+        self.grid_rowconfigure(3, weight=0)
         self.configure(fg_color=BG_CARD, corner_radius=16)
 
         _serif = ctk.CTkFont(family=FONT, size=13)
@@ -157,8 +158,20 @@ class TranscriberFrame(ctk.CTkFrame):
         self.textbox._textbox.tag_configure("app_msg", foreground=ORANGE)
         self.textbox._textbox.tag_configure("transcript", foreground=TEXT_PRIMARY)
 
+        # Drop zone visual hint
+        self.drop_hint = ctk.CTkLabel(
+            self,
+            text="⬇  Arraste um arquivo de áudio aqui  (mp3 · wav · m4a · flac · ogg)",
+            font=ctk.CTkFont(family=FONT, size=12),
+            text_color="#4B5563",
+            fg_color="#1A1A1A",
+            corner_radius=8,
+            height=32,
+        )
+        self.drop_hint.grid(row=3, column=0, padx=20, pady=(0, 4), sticky="ew")
+
         self.btn_frame = ctk.CTkFrame(self, fg_color="transparent")
-        self.btn_frame.grid(row=3, column=0, padx=20, pady=(4, 16), sticky="ew")
+        self.btn_frame.grid(row=4, column=0, padx=20, pady=(4, 16), sticky="ew")
 
         ctk.CTkButton(
             self.btn_frame,
@@ -209,7 +222,7 @@ class TranscriberFrame(ctk.CTkFrame):
         self.observer.start()
 
         folder_name = os.path.basename(self.watch_directory)
-        self.set_status(f"Monitorando: ...\\{folder_name}", ORANGE)
+        self.set_status(f"⬤  Monitorando: ...\\{folder_name}", ORANGE)
 
     def on_drop(self, event):
         filepath = event.data
@@ -237,14 +250,14 @@ class TranscriberFrame(ctk.CTkFrame):
 
         self.processing_files.add(abs_path)
         filename = os.path.basename(abs_path)
-        self.set_status(f"Processando {filename}...", ORANGE)
+        self.set_status(f"⟳  Processando {filename}...", ORANGE)
         threading.Thread(target=self.process_file, args=(abs_path, service_name), daemon=True).start()
 
     def process_file(self, filepath, service_name):
         try:
             service = self.services[service_name]
             text = service.transcribe(filepath)
-            self.set_status("Transcricao concluida!", "#22C55E")
+            self.set_status("✓  Transcricao concluida!", "#22C55E")
             self.append_transcript(filepath, service_name, text)
         except Exception as error:
             self.set_status(f"Erro: {error}", "red")
